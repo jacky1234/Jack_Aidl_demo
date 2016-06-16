@@ -11,7 +11,9 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int MSG_REFRESH_INFO = 0x110;
 
     private TextView tv_info;
+    private ScrollView scrollView;
+
+    private boolean shouldAutoScroll = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +53,60 @@ public class MainActivity extends AppCompatActivity {
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            myHandler.post(scrollRunnable);
+
+            scrollView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    shouldAutoScroll = false;
+                    if (event.getAction() == MotionEvent.ACTION_UP){
+                        myHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                shouldAutoScroll = true;
+                                myHandler.post(scrollRunnable);
+                            }
+                        },2000);
+                    }
+                    return false;
+                }
+            });
+        } else {
+            shouldAutoScroll = false;
+        }
+    }
+
+    private Runnable scrollRunnable = new Runnable() {
+        @Override
+        public void run() {
+            //自动滑动
+            int off = scrollView.getMeasuredHeight() - (scrollView.getChildAt(0)).getMeasuredHeight();
+            int scrollY = scrollView.getScrollY();
+
+            int step;
+            if (off * (-1) > scrollY) {
+                if (off * (-1) - scrollY > 30) {
+                    step = 30;
+                } else {
+                    step = off * (-1) - scrollY;
+                }
+
+                scrollView.scrollBy(0, step);
+            }
+
+            if (shouldAutoScroll) {
+                myHandler.postDelayed(this, 30);
+            }
+        }
+    };
+
     private void initViews() {
         tv_info = (TextView) findViewById(R.id.tv_info);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
     }
 
     /**
@@ -68,14 +125,17 @@ public class MainActivity extends AppCompatActivity {
     public void queryBooks(View view) {
         mExecutor.execute(new GetBookListRunnable());
     }
-    /*********************************事件处理*end**********************/
+
+    /*********************************
+     * 事件处理*end
+     **********************/
 
     private ServiceConnection mConnection = new ServiceConnection() {
         /**
          * 注意：
          * onServiceConnected 和 onServiceDisconnected运行在ui线程中，不应该在里面调用耗时的操作。
-         * @param name
-         * @param service
+         * @param name      组建名字
+         * @param service   服务器返回的Binder对象
          */
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -127,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         //释放连接
         unbindService(mConnection);
+        shouldAutoScroll = false;
     }
 
     private void refreshTextInfo() {
@@ -136,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     private static class MyHandler extends Handler {
         private final WeakReference<MainActivity> mOuter;
 
-        public MyHandler(MainActivity activity) {
+        private MyHandler(MainActivity activity) {
             mOuter = new WeakReference<>(activity);
         }
 
