@@ -9,12 +9,13 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -63,14 +64,14 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     shouldAutoScroll = false;
-                    if (event.getAction() == MotionEvent.ACTION_UP){
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
                         myHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 shouldAutoScroll = true;
                                 myHandler.post(scrollRunnable);
                             }
-                        },2000);
+                        }, 2000);
                     }
                     return false;
                 }
@@ -114,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void addBook(View view) {
         Book newBook = new Book(
-                bookId, new Random().nextInt(100),
-                "Book" + bookId
+            bookId, new Random().nextInt(100),
+            "Book" + bookId
         );
         mExecutor.execute(new AddBookRunnable(newBook));
 
@@ -155,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                  * action2,耗时操作，加入书籍
                  */
                 mExecutor.execute(new AddBookRunnable(new Book(4, 50, "Android进阶")));
+                mRemoteBookManager.registerListener(mOnNewBookArrivedListener);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -182,10 +184,32 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private IOnNewBookArrivedListener mOnNewBookArrivedListener = new IOnNewBookArrivedListener.Stub() {
+
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+
+        }
+
+        @Override
+        public void onNewBookArrived(Book newBook) throws RemoteException {
+            Log.d(TAG, String.format("new book arrive:%s", newBook.toString()));
+        }
+    };
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //释放连接
+        if (mRemoteBookManager != null && mRemoteBookManager.asBinder().isBinderAlive()) {
+            try {
+                mRemoteBookManager.unregisterListener(mOnNewBookArrivedListener);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
         unbindService(mConnection);
         shouldAutoScroll = false;
     }
@@ -235,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
                     bookList = mRemoteBookManager.getBookList();
                     info = "server:query book list consumer time:" + (System.currentTimeMillis() - start) + "ms, list type:"
-                            + bookList.toString();
+                        + bookList.toString();
                     Log.i(TAG, info);
                     sb.append("\n\n").append(info);
                     myHandler.sendEmptyMessage(MSG_REFRESH_INFO);

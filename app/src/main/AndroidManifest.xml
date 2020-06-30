@@ -22,5 +22,4 @@
             android:exported="true"
             android:process=":remote"/>
     </application>
-
 </manifest>
