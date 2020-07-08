@@ -1,4 +1,4 @@
-package com.jack.jack_aidl_demo;
+package com.jack.ps.aidl;
 
 import android.app.Service;
 import android.content.Intent;

@@ -4,27 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.jack.jack_aidl_demo.MainActivity">
+    tools:context="com.jack.ps.aidl.BookTestActivity">
 
     <Button
         android:id="@+id/btn_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="向服务器加入书籍"
-        android:onClick="addBook"/>
+        android:onClick="addBook"
+        android:text="向服务器加入书籍" />
 
     <Button
         android:id="@+id/btn_query"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="查询书籍"
-        android:onClick="queryBooks"/>
+        android:onClick="queryBooks"
+        android:text="查询书籍" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="always">
+
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="match_parent"

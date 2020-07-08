@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AIDL_JACKY.iml" filepath="$PROJECT_DIR$/.idea/modules/AIDL_JACKY.iml" group="AIDL_JACKY" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AIDL_JACKY-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AIDL_JACKY-app.iml" group="AIDL_JACKY/app" />
       <module fileurl="file://$PROJECT_DIR$/Jack_Aidl_demo.iml" filepath="$PROJECT_DIR$/Jack_Aidl_demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Jack_Aidl_demo-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Jack_Aidl_demo-app.iml" group="Jack_Aidl_demo/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ad-ppp-Jack_Aidl_demo.iml" filepath="$PROJECT_DIR$/.idea/modules/ad-ppp-Jack_Aidl_demo.iml" group="Jack_Aidl_demo" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

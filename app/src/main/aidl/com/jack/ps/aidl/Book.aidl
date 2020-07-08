@@ -1,8 +1,8 @@
 // Book.aidl
-package com.jack.jack_aidl_demo;
+package com.jack.ps.aidl;
 
 // Declare any non-default types here with import statements
-import com.jack.jack_aidl_demo.Book;
+import com.jack.ps.aidl.Book;
 
 //Book 类在 AIDL 中的声明
 parcelable Book;

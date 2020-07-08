@@ -1,4 +1,4 @@
-package com.jack.jack_aidl_demo;
+package com.jack.ps.aidl;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,14 +17,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.jack.ps.R;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+public class BookTestActivity extends AppCompatActivity {
+    private static final String TAG = "BookTestActivity";
 
     private StringBuffer sb = new StringBuffer();
     private static int bookId = 5;
@@ -219,15 +221,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class MyHandler extends Handler {
-        private final WeakReference<MainActivity> mOuter;
+        private final WeakReference<BookTestActivity> mOuter;
 
-        private MyHandler(MainActivity activity) {
+        private MyHandler(BookTestActivity activity) {
             mOuter = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            final MainActivity outer = mOuter.get();
+            final BookTestActivity outer = mOuter.get();
             /**
              * Handler 是隶属于 Activity的
              * 如果Activity没有结束，继续执行页面的更新操作

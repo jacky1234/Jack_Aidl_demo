@@ -1,9 +1,9 @@
 // IBookManager.aidl
-package com.jack.jack_aidl_demo;
+package com.jack.ps.aidl;
 
 // Declare any non-default types here with import statements
-import com.jack.jack_aidl_demo.Book;
-import com.jack.jack_aidl_demo.IOnNewBookArrivedListener;
+import com.jack.ps.aidl.Book;
+import com.jack.ps.aidl.IOnNewBookArrivedListener;
 interface IBookManager {
     /**
      * Demonstrates some basic types that you can use as parameters

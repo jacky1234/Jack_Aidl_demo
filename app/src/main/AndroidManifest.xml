@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jack.jack_aidl_demo">
+    package="com.jack.ps">
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+<!--        <activity-->
+<!--            android:name="com.jack.ps.aidl.BookTestActivity"-->
+<!--            android:label="BookTestActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+        <activity
+            android:name=".pool.BinderPoolTestActivity"
+            android:label="BinderPoolTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,9 +29,15 @@
         </activity>
 
         <service
-            android:name=".BookManagerService"
+            android:name="com.jack.ps.aidl.BookManagerService"
             android:enabled="true"
             android:exported="true"
-            android:process=":remote"/>
+            android:process=":remote" />
+
+        <service
+            android:name=".pool.BinderPoolService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":pool" />
     </application>
 </manifest>

@@ -1,11 +1,9 @@
-// IOnNewBookArrivedListener.aidl
-package com.jack.jack_aidl_demo;
+// ICompute.aidl
+package com.jack.ps.pool;
 
 // Declare any non-default types here with import statements
 
-import com.jack.jack_aidl_demo.Book;
-
-interface IOnNewBookArrivedListener {
+interface ICompute {
     /**
      * Demonstrates some basic types that you can use as parameters
      * and return values in AIDL.
@@ -13,5 +11,5 @@ interface IOnNewBookArrivedListener {
     void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
             double aDouble, String aString);
 
-    void onNewBookArrived(in Book newBook);
+    int add(int a, int b);
 }
