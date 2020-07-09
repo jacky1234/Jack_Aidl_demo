@@ -26,7 +26,7 @@ public class BinderPool {
         connectBinderPoolService();
     }
 
-    public static BinderPool getInsance(Context context) {
+    public static BinderPool getInstance(Context context) {
         if (sInstance == null) {
             synchronized (BinderPool.class) {
                 if (sInstance == null) {

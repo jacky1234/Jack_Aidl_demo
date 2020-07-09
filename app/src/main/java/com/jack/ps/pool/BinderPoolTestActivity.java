@@ -10,6 +10,8 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.jack.ps.support.util.Util;
+
 /**
  * Created by Jacky on 2020/7/8
  */
@@ -45,19 +47,18 @@ public class BinderPoolTestActivity extends AppCompatActivity {
     }
 
     private void doWork() {
-        BinderPool binderPool = BinderPool.getInsance(this);
+        BinderPool binderPool = BinderPool.getInstance(this);
         IBinder securityBinder = binderPool
             .queryBinder(BinderPool.BINDER_SECURITY_CENTER);
 
-        mSecurityCenter = SecurityCenterImpl
-            .asInterface(securityBinder);
+        mSecurityCenter = SecurityCenterImpl.asInterface(securityBinder);
         Log.d(TAG, "visit ISecurityCenter");
-        String msg = "helloworld-安卓";
-        System.out.println("content:" + msg);
+        String msg = "helloWorld-安卓";
+        Util.i(TAG, "content:%s", msg);
         try {
             String password = mSecurityCenter.encrypt(msg);
-            System.out.println("encrypt:" + password);
-            System.out.println("decrypt:" + mSecurityCenter.decrypt(password));
+            Util.i(TAG, "encrypt:" + password);
+            Util.i(TAG, "decrypt:" + mSecurityCenter.decrypt(password));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -65,10 +66,10 @@ public class BinderPoolTestActivity extends AppCompatActivity {
         Log.d(TAG, "visit ICompute");
         IBinder computeBinder = binderPool
             .queryBinder(BinderPool.BINDER_COMPUTE);
-        ;
+
         mCompute = ComputeImpl.asInterface(computeBinder);
         try {
-            System.out.println("3+5=" + mCompute.add(3, 5));
+            Util.i(TAG, "3+5=" + mCompute.add(3, 5));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

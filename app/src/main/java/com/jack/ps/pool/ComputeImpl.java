@@ -2,6 +2,8 @@ package com.jack.ps.pool;
 
 import android.os.RemoteException;
 
+import com.jack.ps.support.util.Util;
+
 /**
  * Created by Jacky on 2020/7/8
  */
@@ -19,6 +21,8 @@ public class ComputeImpl extends ICompute.Stub {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return a + b;
+        final int i = a + b;
+        Util.i("ComputeImpl", "add in server,%d + %d = %d", a, b, i);
+        return i;
     }
 }
