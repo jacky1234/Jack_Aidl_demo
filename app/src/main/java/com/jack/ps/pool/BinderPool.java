@@ -16,7 +16,7 @@ public class BinderPool {
     public static final int BINDER_COMPUTE = 0;
     public static final int BINDER_SECURITY_CENTER = 1;
 
-    private Context mContext;
+    private final Context mContext;
     private IBinderPool mBinderPool;
     private static volatile BinderPool sInstance;
     private CountDownLatch mConnectBinderPoolCountDownLatch;
@@ -30,7 +30,7 @@ public class BinderPool {
         if (sInstance == null) {
             synchronized (BinderPool.class) {
                 if (sInstance == null) {
-                    sInstance = new BinderPool(context);
+                    sInstance = new BinderPool(context.getApplicationContext());
                 }
             }
         }
@@ -68,7 +68,7 @@ public class BinderPool {
         return binder;
     }
 
-    private ServiceConnection mBinderPoolConnection = new ServiceConnection() {
+    private final ServiceConnection mBinderPoolConnection = new ServiceConnection() {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -87,7 +87,7 @@ public class BinderPool {
         }
     };
 
-    private IBinder.DeathRecipient mBinderPoolDeathRecipient = new IBinder.DeathRecipient() {
+    private final IBinder.DeathRecipient mBinderPoolDeathRecipient = new IBinder.DeathRecipient() {
         @Override
         public void binderDied() {
             Log.w(TAG, "binder died.");

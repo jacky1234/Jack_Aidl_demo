@@ -1,5 +1,6 @@
 package com.jack.ps.pool;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -20,6 +21,7 @@ public class BinderPoolTestActivity extends AppCompatActivity {
 
     private ISecurityCenter mSecurityCenter;
     private ICompute mCompute;
+    Intent service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +30,10 @@ public class BinderPoolTestActivity extends AppCompatActivity {
         final Button button = new Button(this);
         button.setText("Test");
         setContentView(button);
+
+        // 调用新进程，方便调试
+        service = new Intent(this, BinderPoolService.class);
+        startService(service);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,5 +79,11 @@ public class BinderPoolTestActivity extends AppCompatActivity {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(service);
     }
 }

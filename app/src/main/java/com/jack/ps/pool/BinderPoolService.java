@@ -10,7 +10,7 @@ public class BinderPoolService extends Service {
 
     private static final String TAG = "BinderPoolService";
 
-    private Binder mBinderPool = new BinderPool.BinderPoolImpl();
+    private final Binder mBinderPool = new BinderPool.BinderPoolImpl();
 
     @Override
     public void onCreate() {
